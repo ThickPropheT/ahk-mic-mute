@@ -46,11 +46,17 @@ global toolTip_duration := 750
 global key_heldThreshold := 250
 
 ; map key up, down, press, & hold triggers to handlers (functions)
-global key_OnUpHandler :=
-global key_OnDownHandler :=
+
+; push-to-talk (on hold)
 global key_OnBeginHoldHandler := "Mic_Unmute"
 global key_OnEndHoldHandler := "Mic_Mute"
+
+; toggle mute (on press)
 global key_OnPressHandler := "Mic_ToggleMute"
+
+; unused at the moment. don't delete them.
+global key_OnUpHandler :=
+global key_OnDownHandler :=
 
 
 ;
