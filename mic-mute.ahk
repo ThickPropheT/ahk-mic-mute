@@ -45,7 +45,10 @@ global toolTip_duration := 750
 ; how long the key must be held to trigger the key-held handler. default: 250
 global key_heldThreshold := 250
 
-; map key up, down, press, & hold triggers to handlers (functions)
+
+;
+; Key Trigger (up|down|press|hold) to Handler (functions) Mappings
+;
 
 ; push-to-talk (on hold)
 global key_OnBeginHoldHandler := "Mic_Unmute"
