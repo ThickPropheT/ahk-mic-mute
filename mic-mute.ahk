@@ -45,6 +45,12 @@ global toolTip_duration := 750
 ; how long the key must be held to trigger the key-held handler. default: 250
 global key_heldThreshold := 250
 
+; map key up, down, press, & hold triggers to handlers (functions)
+global key_OnUpHandler :=
+global key_OnDownHandler :=
+global key_OnBeginHoldHandler := "OnBeginHold_Unmute"
+global key_OnEndHoldHandler := "OnEndHold_Mute"
+global key_OnPressHandler := "OnPress_ToggleMute"
 
 
 ;
@@ -85,19 +91,19 @@ ShowToolTip(text, duration) {
 	if not (toolTip_enabled) {
 		return
 	}
-	
+
 	#Persistent
-	
+
 	ToolTip %text%
 	SetTimer, HideToolTip, %duration%
 }
 
 ; when toolTip is enabled, show toolTip with target device's mute status; otherwise no-op.
 ShowMute(duration, setting) {
-	
+
 	onOff := setting ? "On" : "Off"
 	text := % "Mic Mute: " . onOff
-	
+
 	ShowToolTip(text, duration)
 }
 
@@ -132,9 +138,9 @@ SetMute(desc, new_setting := 0) {
 	else {
 		throw Exception("Error for SetMute. new_setting is out of range.")
 	}
-	
+
 	VA_SetMute(mute, , desc)
-	
+
 	return VA_GetMute( , desc)
 }
 
@@ -148,7 +154,7 @@ SetMute(desc, new_setting := 0) {
 SetMuteAndShow(new_setting) {
 
 	setting := SetMute(device_desc, new_setting)
-	
+
 	ShowMute(toolTip_duration, setting)
 }
 
@@ -158,30 +164,25 @@ SetMuteAndShow(new_setting) {
 ; User Functions (Customize these functions to your liking).
 ;
 
-; key-down handler.
-Key_OnDownImpl() {
-
-	; to use this handler, uncomment the call below in Key_OnDown().
-}
-
 ; key-held(begin) handler.
-Key_OnBeginHold() {
+OnBeginHold_Unmute() {
 
 	; on key-held(begin), turn mute off
 	SetMuteAndShow(MUTE_OFF)
 }
 
-; key-up handler.
-Key_OnUpImpl(state) {
+; key-held(end) handler.
+OnEndHold_Mute() {
 
-	if (state = KEY_DOWN) {
-		; on key-press, toggle mute
-		SetMuteAndShow(MUTE_TOGGLE)
-	}
-	else if (state = KEY_HELD) {
-		; on key-held(end), turn mute on
-		SetMuteAndShow(MUTE_ON)
-	}
+	; on key-held(end), turn mute on
+	SetMuteAndShow(MUTE_ON)
+}
+
+; key-press handler.
+OnPress_ToggleMute() {
+
+	; on key-press, toggle mute
+	SetMuteAndShow(MUTE_TOGGLE)
 }
 
 
@@ -191,12 +192,14 @@ Key_OnUpImpl(state) {
 ;
 
 ; coordinates key-held portion of key-held state management.
-Key_OnHeld() {
-	
-	SetTimer Key_OnHeld, Off
-	
-	Key_OnBeginHold()
-	
+Key_OnHold() {
+
+	SetTimer Key_OnHold, Off
+
+	if (key_OnBeginHoldHandler) {
+		%key_OnBeginHoldHandler%()
+	}
+
 	key_state := KEY_HELD
 }
 
@@ -206,21 +209,33 @@ Key_OnDown() {
 	if not (key_state = KEY_UP) {
 		return
 	}
-	
-	; Key_OnDownImpl()
-	
-	SetTimer Key_OnHeld, %key_heldThreshold%
-	
+
+	if (key_OnDownHandler) {
+		%key_OnDownHandler%()
+	}
+
+	SetTimer Key_OnHold, %key_heldThreshold%
+
 	key_state := KEY_DOWN
 }
 
 ; coordinates key-up portion of key-held state management.
 Key_OnUp() {
-	
-	SetTimer, Key_OnHeld, Off
-	
-	Key_OnUpImpl(key_state)
-	
+
+	SetTimer, Key_OnHold, Off
+
+	if (key_OnUpHandler) {
+		%key_OnUpHandler%(key_state)
+	}
+
+	if (key_state = KEY_HELD and key_OnEndHoldHandler) {
+		%key_OnEndHoldHandler%()
+	}
+
+	if (key_state = KEY_DOWN and key_OnPressHandler) {
+		%key_OnPressHandler%()
+	}
+
 	key_state := KEY_UP
 }
 
@@ -231,7 +246,7 @@ Key_OnUp() {
 ;
 
 ; bind key-down handler to NumLock
-NumLock::Key_OnDown()
+ScrollLock::Key_OnDown()
 
 ; bind key-up to handler to NumLock
-~NumLock up::Key_OnUp()
+~ScrollLock up::Key_OnUp()
