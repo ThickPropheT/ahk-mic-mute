@@ -1,5 +1,5 @@
 ﻿;
-; AutoHotkey Version: v1.1.22.06
+; AutoHotkey Version: v1.1.37.01
 ; Language:       English
 ; Platform:       Windows 10
 ; Author(s):      Andy Terra <github.com/airstrike>, ThickProphet <github.com/ThickPropheT>
