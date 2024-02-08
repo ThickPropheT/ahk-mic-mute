@@ -10,8 +10,8 @@ An AutoHotkey script used to map hotkeys to microphone muting/unmuting operation
 ## Defaults & Assumptions
 - Assumes `device_desc` to be `"capture"` and `subunit_desc` to be `unset` (see [VistaAudio VA_SetMute docs](https://ahkscript.github.io/VistaAudio/#VA_SetMute))
 - Both `NumLock` and `PrintScreen` bound by default
-	- On key-press: toggle mute
-	- On key-held (default hold duration is `250 ms`): push-to-talk
+	- **On key-press**: toggle mute
+	- **On key-held** (default hold duration is `250 ms`): push-to-talk
 - ToolTip enabled by default with display duration of `750 ms`
 
 ## Troubleshooting
