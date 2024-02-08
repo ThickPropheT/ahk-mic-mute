@@ -245,8 +245,22 @@ Key_OnUp() {
 ; Key Bindings
 ;
 
+;
+; 75% Board (knob mapped to NumLock) Bindings
+;
+
 ; bind key-down handler to NumLock
 NumLock::Key_OnDown()
 
 ; bind key-up to handler to NumLock
 ~NumLock up::Key_OnUp()
+
+;
+; TKL Board (w/ PrintScreen key) Bindings
+;
+
+; bind key-down handler to PrintScreen
+PrintScreen::Key_OnDown()
+
+; bind key-up to handler to PrintScreen
+~PrintScreen up::Key_OnUp()
