@@ -28,10 +28,13 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance force
 
+;
+; Customizable Sections:
+; ---------------------
+;
 
 ;
 ; Configuration:
-;   - Customize these settings to your liking.
 ;
 
 ; search criteria for device to mute. default: "capture"
@@ -49,7 +52,6 @@ global key_heldThreshold := 250
 
 ;
 ; Key Trigger (up|down|press|hold) to Handler (function) Mappings:
-;   - Customize these mappings to your liking.
 ;
 
 ; push-to-talk (on hold)
@@ -65,9 +67,19 @@ global key_OnDownHandler :=
 
 
 ;
+; Trigger Handler Functions...
+;   - Are also further down the script.
+;
+
+;
 ; Key Bindings...
 ;   - Are at the bottom of the script.
-;   - Customize them to your liking.
+;
+
+
+;
+; Non-Customizable Sections:
+; -------------------------
 ;
 
 
@@ -179,7 +191,7 @@ SetMuteAndShow(new_setting) {
 
 
 ;
-; User Functions:
+; Trigger Handler Functions:
 ;   - Customize these functions to your liking.
 ;
 
