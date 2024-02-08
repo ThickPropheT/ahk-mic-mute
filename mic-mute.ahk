@@ -48,9 +48,9 @@ global key_heldThreshold := 250
 ; map key up, down, press, & hold triggers to handlers (functions)
 global key_OnUpHandler :=
 global key_OnDownHandler :=
-global key_OnBeginHoldHandler := "OnBeginHold_Unmute"
-global key_OnEndHoldHandler := "OnEndHold_Mute"
-global key_OnPressHandler := "OnPress_ToggleMute"
+global key_OnBeginHoldHandler := "Mic_Unmute"
+global key_OnEndHoldHandler := "Mic_Mute"
+global key_OnPressHandler := "Mic_ToggleMute"
 
 
 ;
@@ -165,21 +165,21 @@ SetMuteAndShow(new_setting) {
 ;
 
 ; key-held(begin) handler.
-OnBeginHold_Unmute() {
+Mic_Unmute() {
 
 	; on key-held(begin), turn mute off
 	SetMuteAndShow(MUTE_OFF)
 }
 
 ; key-held(end) handler.
-OnEndHold_Mute() {
+Mic_Mute() {
 
 	; on key-held(end), turn mute on
 	SetMuteAndShow(MUTE_ON)
 }
 
 ; key-press handler.
-OnPress_ToggleMute() {
+Mic_ToggleMute() {
 
 	; on key-press, toggle mute
 	SetMuteAndShow(MUTE_TOGGLE)
