@@ -246,7 +246,7 @@ Key_OnUp() {
 ;
 
 ; bind key-down handler to NumLock
-ScrollLock::Key_OnDown()
+NumLock::Key_OnDown()
 
 ; bind key-up to handler to NumLock
-~ScrollLock up::Key_OnUp()
+~NumLock up::Key_OnUp()
