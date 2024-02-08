@@ -65,6 +65,13 @@ global key_OnDownHandler :=
 
 
 ;
+; Key Bindings...
+;   - Are at the bottom of the script.
+;   - Customize them to your liking.
+;
+
+
+;
 ; Constants / Enums:
 ;
 
