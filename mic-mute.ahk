@@ -12,7 +12,7 @@
 
 
 ;
-; Library Imports
+; Library Imports:
 ;
 
 ; Requires Vista Audio Control Functions Library (see .\Lib\VA\README.md)
@@ -20,7 +20,7 @@
 
 
 ;
-; AutoHotkey v1.x.x.x Flags
+; AutoHotkey v1.x.x.x Flags:
 ;
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
@@ -30,7 +30,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
 ;
-; Configuration (Customize these settings to your liking).
+; Configuration:
+;   - Customize these settings to your liking.
 ;
 
 ; search criteria for device to mute. default: "capture"
@@ -47,7 +48,8 @@ global key_heldThreshold := 250
 
 
 ;
-; Key Trigger (up|down|press|hold) to Handler (functions) Mappings
+; Key Trigger (up|down|press|hold) to Handler (function) Mappings:
+;   - Customize these mappings to your liking.
 ;
 
 ; push-to-talk (on hold)
@@ -63,7 +65,7 @@ global key_OnDownHandler :=
 
 
 ;
-; Constants / Enums
+; Constants / Enums:
 ;
 
 global KEY_UP := "UP"
@@ -76,7 +78,7 @@ global MUTE_OFF := -1
 
 
 ;
-; State
+; State:
 ;
 
 global key_state := KEY_UP
@@ -84,7 +86,7 @@ global key_state := KEY_UP
 
 
 ;
-; ToolTip Functions
+; ToolTip Functions:
 ;
 
 ; hide the toolTip.
@@ -119,7 +121,7 @@ ShowMute(duration, setting) {
 
 
 ;
-; Integration Functions
+; Integration Functions:
 ;
 
 ; set mute for the given device descriptor.
@@ -156,7 +158,7 @@ SetMute(desc, new_setting := 0) {
 
 
 ;
-; Core Functions
+; Core Functions:
 ;
 
 ; set mute for the given device descriptor (see SetMute(...)).
@@ -170,7 +172,8 @@ SetMuteAndShow(new_setting) {
 
 
 ;
-; User Functions (Customize these functions to your liking).
+; User Functions:
+;   - Customize these functions to your liking.
 ;
 
 ; key-held(begin) handler.
@@ -197,7 +200,7 @@ Mic_ToggleMute() {
 
 
 ;
-; Key State Functions
+; Key Trigger Functions:
 ;
 
 ; coordinates key-held portion of key-held state management.
@@ -251,11 +254,13 @@ Key_OnUp() {
 
 
 ;
-; Key Bindings
+; Key Bindings:
+;   - Customize these bindings to your liking.
 ;
 
+
 ;
-; 75% Board (knob mapped to NumLock) Bindings
+; 75% Board (knob mapped to NumLock) Bindings:
 ;
 
 ; bind key-down handler to NumLock
@@ -264,8 +269,9 @@ NumLock::Key_OnDown()
 ; bind key-up handler to NumLock
 ~NumLock up::Key_OnUp()
 
+
 ;
-; TKL Board (w/ PrintScreen key) Bindings
+; TKL Board (w/ PrintScreen key) Bindings:
 ;
 
 ; bind key-down handler to PrintScreen
