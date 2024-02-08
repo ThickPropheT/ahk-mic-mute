@@ -16,7 +16,7 @@
 ;
 
 ; Requires Vista Audio Control Functions Library (see .\Lib\VA\README.md)
-#Include <VA-2.3\VA>
+#Include <VA\VA>
 
 
 ;
