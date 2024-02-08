@@ -252,7 +252,7 @@ Key_OnUp() {
 ; bind key-down handler to NumLock
 NumLock::Key_OnDown()
 
-; bind key-up to handler to NumLock
+; bind key-up handler to NumLock
 ~NumLock up::Key_OnUp()
 
 ;
@@ -262,5 +262,5 @@ NumLock::Key_OnDown()
 ; bind key-down handler to PrintScreen
 PrintScreen::Key_OnDown()
 
-; bind key-up to handler to PrintScreen
+; bind key-up handler to PrintScreen
 ~PrintScreen up::Key_OnUp()
