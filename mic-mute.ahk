@@ -31,7 +31,6 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;
 ; Customizable Sections:
 ; ---------------------
-;
 
 ;
 ; Configuration:
@@ -80,8 +79,6 @@ global key_OnDownHandler :=
 ;
 ; Non-Customizable Sections:
 ; -------------------------
-;
-
 
 ;
 ; Constants / Enums:
