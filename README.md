@@ -4,7 +4,8 @@ An AutoHotkey script used to map hotkeys to microphone muting/unmuting operation
 Relies on the [Vista Audio Control Functions Library](https://github.com/ahkscript/VistaAudio) to get and set microphone mute state (see [./Lib/VA/README.md](https://github.com/ThickPropheT/ahk-mic-mute/tree/59cc8767a8a1bd7e69b89cc94731714d1b3cb076/Lib/VA)).
 
 ## Defaults & Assumptions
-- Assumes `device_desc` to be `"capture"` and `subunit_desc` to be unset (see [VistaAudio VA_SetMute docs](https://ahkscript.github.io/VistaAudio/#VA_SetMute))
+- Assumes `device_desc` to be `"capture"` and `subunit_desc` to be `unset` (see [VistaAudio VA_SetMute docs](https://ahkscript.github.io/VistaAudio/#VA_SetMute))
+	- If the script crashes or does not correctly mute your mic, you may need to tinker with these values. Good luck. ([This](https://www.autohotkey.com/docs/v1/lib/SoundSet.htm#Soundcard) _may_ be helpful)
 - `NumLock` bound by default
 	- On key-press: toggle mute
 	- On key-held (default hold duration is `250 ms`): push-to-talk
