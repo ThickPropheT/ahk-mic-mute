@@ -68,7 +68,7 @@ global key_OnDownHandler :=
 
 ;
 ; Trigger Handler Functions...
-;   - Are also further down the script.
+;   - Are further down the script.
 ;
 
 ;
