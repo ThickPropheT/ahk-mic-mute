@@ -1,7 +1,7 @@
 # ahk-mic-mute
 An AutoHotkey script used to map hotkeys to microphone muting/unmuting operations.
 
-Relies on the [Vista Audio Control Functions Library](https://github.com/ahkscript/VistaAudio) to get and set microphone mute state (see ./Lib/VA/README.md).
+Relies on the [Vista Audio Control Functions Library](https://github.com/ahkscript/VistaAudio) to get and set microphone mute state ( see [./Lib/VA/README.md](https://github.com/ThickPropheT/ahk-mic-mute/tree/59cc8767a8a1bd7e69b89cc94731714d1b3cb076/Lib/VA) ).
 
 ## Defaults & Assumptions
 - Assumes `device_desc` to be `"capture"` and `subunit_desc` to be unset ( see [VistaAudio VA_SetMute docs](https://ahkscript.github.io/VistaAudio/#VA_SetMute) )
