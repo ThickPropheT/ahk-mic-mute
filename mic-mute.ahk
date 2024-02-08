@@ -1,0 +1,237 @@
+﻿;
+; AutoHotkey Version: v1.1.22.06
+; Language:       English
+; Platform:       Windows 10
+; Author(s):      Andy Terra <github.com/airstrike>, ThickProphet <github.com/ThickPropheT>
+;
+; Script Function:
+;	Set Microphone Mute -- assumes device_desc to be "capture" (see .\Lib\VA\VA.html > VA_GetDevice(...)).
+;		- On key-press, toggles mute
+;		- On key-held, turns mute on until key-up
+;
+
+
+;
+; Library Imports
+;
+
+; Requires Vista Audio Control Functions Library (see .\Lib\VA\README.md)
+#Include <VA-2.3\VA>
+
+
+;
+; AutoHotkey v1.x.x.x Flags
+;
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+#SingleInstance force
+
+
+;
+; Configuration (Customize these settings to your liking).
+;
+
+; search criteria for device to mute. default: "capture"
+global device_desc := "capture"
+
+; determines whether or not to show toolTips
+global toolTip_enabled := true
+
+; how long toolTips remain visible. default: 750
+global toolTip_duration := 750
+
+; how long the key must be held to trigger the key-held handler. default: 250
+global key_heldThreshold := 250
+
+
+
+;
+; Constants / Enums
+;
+
+global KEY_UP := "UP"
+global KEY_DOWN := "DOWN"
+global KEY_HELD := "HELD"
+
+global MUTE_ON := 1
+global MUTE_TOGGLE := 0
+global MUTE_OFF := -1
+
+
+;
+; State
+;
+
+global key_state := KEY_UP
+
+
+
+;
+; ToolTip Functions
+;
+
+; hide the toolTip.
+HideToolTip() {
+
+	SetTimer, HideToolTip, Off
+	ToolTip
+}
+
+; when toolTip is enabled, show toolTip with the given text for the given duration; otherwise no-op.
+ShowToolTip(text, duration) {
+
+	if not (toolTip_enabled) {
+		return
+	}
+	
+	#Persistent
+	
+	ToolTip %text%
+	SetTimer, HideToolTip, %duration%
+}
+
+; when toolTip is enabled, show toolTip with target device's mute status; otherwise no-op.
+ShowMute(duration, setting) {
+	
+	onOff := setting ? "On" : "Off"
+	text := % "Mic Mute: " . onOff
+	
+	ShowToolTip(text, duration)
+}
+
+
+
+;
+; Integration Functions
+;
+
+; set mute for the given device descriptor.
+; params:
+;	desc: a descriptor for the target device.
+;	new_setting:
+;		 1 -> turn mute on
+;		 0 -> toggle mute
+;		-1 -> turn mute off
+; returns:
+; 	the target device's new mute state.
+SetMute(desc, new_setting := 0) {
+
+	mute := true
+
+	if (new_setting < 0) {
+		mute := false
+	}
+	else if (new_setting = 0) {
+		mute := !VA_GetMute( , desc)
+	}
+	else if (0 < new_setting) {
+		mute := true
+	}
+	else {
+		throw Exception("Error for SetMute. new_setting is out of range.")
+	}
+	
+	VA_SetMute(mute, , desc)
+	
+	return VA_GetMute( , desc)
+}
+
+
+
+;
+; Core Functions
+;
+
+; set mute for the given device descriptor (see SetMute(...)).
+SetMuteAndShow(new_setting) {
+
+	setting := SetMute(device_desc, new_setting)
+	
+	ShowMute(toolTip_duration, setting)
+}
+
+
+
+;
+; User Functions (Customize these functions to your liking).
+;
+
+; key-down handler.
+Key_OnDownImpl() {
+
+	; to use this handler, uncomment the call below in Key_OnDown().
+}
+
+; key-held(begin) handler.
+Key_OnBeginHold() {
+
+	; on key-held(begin), turn mute off
+	SetMuteAndShow(MUTE_OFF)
+}
+
+; key-up handler.
+Key_OnUpImpl(state) {
+
+	if (state = KEY_DOWN) {
+		; on key-press, toggle mute
+		SetMuteAndShow(MUTE_TOGGLE)
+	}
+	else if (state = KEY_HELD) {
+		; on key-held(end), turn mute on
+		SetMuteAndShow(MUTE_ON)
+	}
+}
+
+
+
+;
+; Key State Functions
+;
+
+; coordinates key-held portion of key-held state management.
+Key_OnHeld() {
+	
+	SetTimer Key_OnHeld, Off
+	
+	Key_OnBeginHold()
+	
+	key_state := KEY_HELD
+}
+
+; coordinates key-down portion of key-held state management.
+Key_OnDown() {
+
+	if not (key_state = KEY_UP) {
+		return
+	}
+	
+	; Key_OnDownImpl()
+	
+	SetTimer Key_OnHeld, %key_heldThreshold%
+	
+	key_state := KEY_DOWN
+}
+
+; coordinates key-up portion of key-held state management.
+Key_OnUp() {
+	
+	SetTimer, Key_OnHeld, Off
+	
+	Key_OnUpImpl(key_state)
+	
+	key_state := KEY_UP
+}
+
+
+
+;
+; Key Bindings
+;
+
+; bind key-down handler to NumLock
+NumLock::Key_OnDown()
+
+; bind key-up to handler to NumLock
+~NumLock up::Key_OnUp()
